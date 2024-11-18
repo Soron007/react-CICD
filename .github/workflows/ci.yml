@@ -25,3 +25,7 @@ jobs:
              run: "npm install"
            - name: "List directories"
              run: "ls"
+           - name: "run tests"
+             run: "npm test"   
+           - name: "run build"
+             run: "npm run build"  
