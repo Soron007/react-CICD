@@ -1,45 +1,29 @@
-name: "CD Pipeline"
+name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["Sample React CI Pipeline / Workflow"]
+    workflows: ["Sample React CI Pipeline"]
     types:
       - completed
   workflow_dispatch:
 
-permissions:
-  contents: read
-  id-token: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
-      # Step 1: Setup Node.js
       - name: "Setup Node.js"
         uses: actions/setup-node@v4
         with:
           node-version: '21'
 
-      # Step 2: Install Vercel CLI
-      - name: "Setup Vercel CLI"
+      - name: "Install Vercel CLI"
         run: npm install -g vercel
 
-      # Step 3: Download Build Files
       - name: "Download build files"
         uses: actions/download-artifact@v4
         with:
           name: build
-          run-id: ${{ github.event.workflow_run.id }}
 
-      # Debug: Verify that the token is accessible (Optional)
-      - name: "Debug token access"
-        run: echo "Token is set"
-        env:
-          TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
-      # Step 4: Deploy to Vercel
       - name: "Deploy to Vercel"
         run: vercel --prod --token="${{ secrets.VERCEL_TOKEN }}" --confirm --name=cicdproject
