@@ -29,3 +29,8 @@ jobs:
              run: "npm test"   
            - name: "run build"
              run: "npm run build"  
+           - name: "Upload prod-ready build files"
+             uses: actions/upload-artifacts@v4
+             with: 
+              name: build
+              path: /dist
