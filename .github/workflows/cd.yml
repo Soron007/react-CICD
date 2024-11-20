@@ -24,6 +24,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
+          run-id: ${{github.event.workflow_run.id}}
+          github-token: ${{github.token}}
 
       - name: "Deploy to Vercel"
         run: vercel --prod --token="${{ secrets.VERCEL_TOKEN }}" --confirm --name=cicdproject
